@@ -89,7 +89,7 @@ def generate_text(message: str) -> Iterator[str]:
             },
         ],
         temperature=0.2,
-        stream= True,
+        stream=True,
     )
 
     for chunk in stream:

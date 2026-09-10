@@ -15,8 +15,9 @@
 
 ## 启动方法
 
-1. 创建并激活 Python 虚拟环境
-2. 安装 requirements.txt
-3. 根据 .env.example 配置环境变量
-4. 运行 `uvicorn app.main:app --reload`
-5. 打开 `/docs`
+1. 创建虚拟环境：`python -m venv .venv`
+2. 激活虚拟环境：`.venv\Scripts\activate`
+3. 安装依赖：`python -m pip install -r requirements.txt`
+4. 根据 `.env.example` 创建并配置 `.env`
+5. 启动服务：`python -m uvicorn app.main:app --reload`
+6. 打开 `http://127.0.0.1:8000/docs`
