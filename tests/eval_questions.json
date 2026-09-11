@@ -1,0 +1,52 @@
+[
+  {
+    "question": "公司的标准工作时间是什么？",
+    "expected_source": "employee_handbook.txt",
+    "expected_keyword": "上午九点"
+  },
+  {
+    "question": "试用期通常是多久？",
+    "expected_source": "employee_handbook.txt",
+    "expected_keyword": "三个月"
+  },
+  {
+    "question": "每月最多远程办公几天？",
+    "expected_source": "employee_handbook.txt",
+    "expected_keyword": "四天"
+  },
+  {
+    "question": "出差前需要完成什么流程？",
+    "expected_source": "reimbursement_policy.txt",
+    "expected_keyword": "出差申请"
+  },
+  {
+    "question": "高铁可以按照什么标准报销？",
+    "expected_source": "reimbursement_policy.txt",
+    "expected_keyword": "二等座"
+  },
+  {
+    "question": "费用发生后多久需要提交报销？",
+    "expected_source": "reimbursement_policy.txt",
+    "expected_keyword": "三十个自然日"
+  },
+  {
+    "question": "工作满一年不满十年有几天年假？",
+    "expected_source": "leave_policy.txt",
+    "expected_keyword": "五天"
+  },
+  {
+    "question": "连续病假超过两天需要什么？",
+    "expected_source": "leave_policy.txt",
+    "expected_keyword": "医疗机构"
+  },
+  {
+    "question": "一天以内的请假由谁审批？",
+    "expected_source": "leave_policy.txt",
+    "expected_keyword": "直属负责人"
+  },
+  {
+    "question": "公司的年终奖是多少？",
+    "expected_source": null,
+    "expected_keyword": "无法确认"
+  }
+]
