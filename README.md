@@ -56,3 +56,49 @@ data 目录中的内容为虚构的测试资料，不代表真实公司制度。
 - 暂未实现重排、混合检索和语义 Embedding
 - 暂未建立完整的答案质量评测体系
 
+## day3进度
+
+- [x] 基础模型调用
+- [x] 流式响应
+- [x] FastAPI 接口
+- [x] RAG 文档检索
+- [x] Tool Calling
+- [ ] 状态与记忆
+- [ ] Agent 评测
+- [ ] Docker 部署
+
+## Agent 工具调用
+项目实现了一个基于 Function Calling 的企业 AI Agent。
+当前支持以下工具：
+1. `search_company_policy`
+   - 查询员工手册、请假和报销制度
+   - 内部使用 TF-IDF 检索
+2. `calculate`
+   - 计算加减乘除表达式
+   - 使用 AST 限制危险代码执行
+3. `check_leave_approval`
+   - 根据请假天数判断审批负责人
+
+Agent 会将模型返回的工具名称和参数交给 Python 执行，
+并把工具执行结果重新发送给模型生成最终回答。
+
+为提高安全性，项目加入了：
+- Pydantic 参数校验
+- 工具白名单
+- 安全数学表达式解析
+- 最大工具调用次数
+- 工具执行轨迹
+
+## 第三天测试结果
+
+| 测试问题 | 预期工具 | 实际工具 | 是否成功 |
+|---|---|---|---|
+| 每月远程办公多少天 | search_company_policy | search_company_policy | 成功 |
+| 计算三个报销金额 | calculate | calculate | 成功 |
+| 请假3天谁审批 | check_leave_approval | check_leave_approval | 成功 |
+| 普通自我介绍 | 不调用工具 | 无 | 成功 |
+
+| {"message": "我要请3天假，需要谁审批？"} | check_leave_approval | 无 | 失败 |
+经过查找问题，发现是因为输入的问题不符合json格式，导致agent_service.chat() 根本没有被调用，大模型也没有机会提取用户意图
+对于一个企业软件来说，不应该让用户去迎合agent输入需求，而是agent需要去理解用户的输入
+所以经过改变，加入了用户输入框，使得Agent负责理解自然语言；前端负责把自然语言正确传给Agent。
