@@ -97,8 +97,9 @@ Agent 会将模型返回的工具名称和参数交给 Python 执行，
 | 计算三个报销金额 | calculate | calculate | 成功 |
 | 请假3天谁审批 | check_leave_approval | check_leave_approval | 成功 |
 | 普通自我介绍 | 不调用工具 | 无 | 成功 |
-
 | {"message": "我要请3天假，需要谁审批？"} | check_leave_approval | 无 | 失败 |
+
+
 经过查找问题，发现是因为输入的问题不符合json格式，导致agent_service.chat() 根本没有被调用，大模型也没有机会提取用户意图
 对于一个企业软件来说，不应该让用户去迎合agent输入需求，而是agent需要去理解用户的输入
 所以经过改变，加入了用户输入框，使得Agent负责理解自然语言；前端负责把自然语言正确传给Agent。
