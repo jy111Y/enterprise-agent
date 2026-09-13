@@ -20,6 +20,7 @@ class AgentService:
     def chat(        #agent核心循环
             self,
             user_message: str,     #用户问题
+            history: list[dict[str, str]] | None = None,
             max_steps: int = 4,       #最多循环四次
     ) -> dict[str, Any]:             #返回字符串回答和任意格式的工具调用记录
         messages: list[dict[str, Any]] = [
@@ -35,11 +36,28 @@ class AgentService:
                     "如果工具返回的资料不足，应明确说明无法确认。"
                 ),
             },
-            {
-                 "role": "user",
-                "content": user_message,
-            },
         ]
+        for history_message in history or []:
+            role = history_message.get("role")
+            content = history_message.get("content")
+
+            if(
+                role in ("user", "assistant")
+                and isinstance(content, str)
+                and content.strip()
+            ):
+                messages.append(
+                    {
+                        "role": role,
+                        "content": content,
+                    }
+                )
+        messages.append(
+            {
+                "role": "user",
+                "content": user_message,
+            }
+        )
 
         trace: list[dict[str, Any]] = []      #记录每一步调用了什么工具，参数和结果是什么，方便调试和展示
 

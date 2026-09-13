@@ -2,21 +2,36 @@ import os
 
 from pathlib import Path
 from typing import Iterator, Any
+from uuid import uuid4
 
 from app.rag import TfidfRetriever, load_documents
 from app.agent import AgentService
 from app.tools import ToolExecutor
+from app.memory import ConversationMemory
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
 from openai import OpenAI
 from pydantic import BaseModel, Field
-from fastapi import Body
+from fastapi import (
+    Body,
+    FastAPI,
+    HTTPException,
+    Path as ApiPath,
+)
 
 project_root = Path(__file__).resolve().parent.parent
 load_dotenv(project_root / ".env")
 
+memory_database_path = (
+    project_root
+    / "runtime"
+    / "agent_memory.db"
+)
+
+conversation_memory = ConversationMemory(
+    memory_database_path
+)
 
 api_key = os.getenv("LLM_API_KEY")
 base_url = os.getenv("LLM_BASE_URL")
@@ -75,6 +90,31 @@ class AgentRequest(BaseModel):
 class AgentResponse(BaseModel):
     answer: str
     trace: list[dict[str,Any]]
+
+
+class SessionAgentRequest(BaseModel):     #客户端发来的请求
+    session_id: str | None = Field(    #Field用于加配置，比如长度限制数值范围等
+        default=None,
+        min_length=1,
+        max_length=64,
+        pattern=r"^[a-zA-Z0-9_-]+$",   #只能包含大小写字母，数字，下划线，短横线
+    )      #如果用户传了session_id(会话id),则表示继续之前的对话,否则服务端自动生成一个session_id返回给客户端
+
+    message: str = Field(
+        min_length=1,
+        max_length=1000,
+    )
+
+
+class SessionAgentResponse(BaseModel):    #服务端返回的响应
+    session_id: str
+    answer: str
+    trace: list[dict[str, Any]]
+
+
+class SessionHistoryResponse(BaseModel):    #查询某个会话历史时的响应
+    session_id: str
+    messages: list[dict[str, str]]
 
 
 # def generate_text(message: str) -> Iterator[str]:
@@ -204,3 +244,77 @@ def agent_chat_text(
         answer=result["answer"],
         trace=result["trace"],
     )
+
+@app.post(     #读取最近历史来给出回答
+    "/agent/session/chat",
+    response_model=SessionAgentResponse,
+)
+def agent_session_chat(
+    request: SessionAgentRequest,
+) -> SessionAgentResponse:
+    session_id = request.session_id or uuid4().hex   #uuid4()生成一个新的session_id
+
+    history = conversation_memory.get_recent_messages(
+        session_id=session_id,
+        limit=10,
+    )
+
+    result = agent_service.chat(
+        user_message=request.message,
+        history=history,
+    )
+
+    conversation_memory.add_message(
+        session_id=session_id,
+        role="user",
+        content=request.message,
+    )
+
+    conversation_memory.add_message(
+        session_id=session_id,
+        role="assistant",
+        content=result["answer"],
+    )
+
+    return SessionAgentResponse(
+        session_id=session_id,
+        answer=result["answer"],
+        trace=result["trace"],
+    )
+
+@app.get(          #查询会话所有历史
+    "/agent/sessions/{session_id}",
+    response_model=SessionHistoryResponse,
+)
+def get_agent_session(
+    session_id: str = ApiPath(   #ApiPath是FastAPI里用来给路径参数加校验的工具
+        min_length=1,
+        max_length=64,
+        pattern=r"^[a-zA-Z0-9_-]+$",
+    ),
+) -> SessionHistoryResponse:
+    messages = conversation_memory.get_all_messages(
+        session_id
+    )
+
+    return SessionHistoryResponse(
+        session_id=session_id,
+        messages=messages,
+    )
+
+@app.delete("/agent/sessions/{session_id}")          #删除会话
+def delete_agent_session(
+    session_id: str = ApiPath(
+        min_length=1,
+        max_length=64,
+        pattern=r"^[a-zA-Z0-9_-]+$",
+    ),
+) -> dict[str, Any]:
+    deleted_count = conversation_memory.clear_session(
+        session_id
+    )            #返回值是被删除的消息条数
+
+    return {
+        "session_id": session_id,
+        "deleted_messages": deleted_count,
+    }
