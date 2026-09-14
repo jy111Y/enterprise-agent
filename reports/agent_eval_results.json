@@ -1,0 +1,196 @@
+{
+  "summary": {
+    "total": 10,
+    "passed": 8,
+    "overall_accuracy": 0.8,
+    "tool_accuracy": 1.0,
+    "answer_accuracy": 0.8
+  },
+  "results": [
+    {
+      "id": "policy-001",
+      "category": "policy",
+      "question": "每个月最多可以远程办公多少天？",
+      "expected_tools": [
+        "search_company_policy"
+      ],
+      "actual_tools": [
+        "search_company_policy"
+      ],
+      "expected_keywords": [
+        "四天"
+      ],
+      "answer": "根据公司员工手册的规定：**每月远程办公原则上不超过四天**，特殊情况需由部门负责人批准。\n\n另外提醒一下，申请远程办公需要**至少提前一个工作日**向直属负责人提交申请。",
+      "tool_passed": true,
+      "answer_passed": true,
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "policy-002",
+      "category": "policy",
+      "question": "公司的标准工作时间是什么？",
+      "expected_tools": [
+        "search_company_policy"
+      ],
+      "actual_tools": [
+        "search_company_policy"
+      ],
+      "expected_keywords": [
+        "上午九点"
+      ],
+      "answer": "根据公司员工手册，标准工作时间如下：\n\n- **工作日**：周一至周五\n- **工作时间**：上午 9:00 至下午 6:00\n- **午休时间**：中午 12:00 至下午 1:00\n\n此外，员工应按所在部门的要求完成考勤。\n\n（来源：员工手册「工作时间」章节）",
+      "tool_passed": true,
+      "answer_passed": false,
+      "passed": false,
+      "error": null
+    },
+    {
+      "id": "policy-003",
+      "category": "policy",
+      "question": "高铁可以按照什么标准报销？",
+      "expected_tools": [
+        "search_company_policy"
+      ],
+      "actual_tools": [
+        "search_company_policy"
+      ],
+      "expected_keywords": [
+        "二等座"
+      ],
+      "answer": "根据公司差旅报销制度，高铁的报销标准如下：\n\n- **可报销标准**：城市间交通可报销**高铁二等座**（或经济舱）。\n- **升级标准**：因特殊业务需要升级交通标准（如一等座/商务座）时，必须**提前获得部门负责人批准**。\n- **前提条件**：出差前需提交出差申请并获得直属负责人批准；未经批准产生的差旅费用原则上不予报销。\n- **报销时限**：应在费用发生后的**30个自然日内**提交报销申请。\n- **所需材料**：有效发票、付款记录和对应的审批记录。\n\n如需了解其他交通方式或具体城市的报销细则，可以再告诉我。",
+      "tool_passed": true,
+      "answer_passed": true,
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "calculate-001",
+      "category": "calculate",
+      "question": "请计算128.5加69.9再加42.6",
+      "expected_tools": [
+        "calculate"
+      ],
+      "actual_tools": [
+        "calculate"
+      ],
+      "expected_keywords": [
+        "241"
+      ],
+      "answer": "128.5 + 69.9 + 42.6 = **241.0**",
+      "tool_passed": true,
+      "answer_passed": true,
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "calculate-002",
+      "category": "calculate",
+      "question": "请计算(100+20)*2",
+      "expected_tools": [
+        "calculate"
+      ],
+      "actual_tools": [
+        "calculate"
+      ],
+      "expected_keywords": [
+        "240"
+      ],
+      "answer": "(100+20)*2 = **240**",
+      "tool_passed": true,
+      "answer_passed": true,
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "leave-001",
+      "category": "leave",
+      "question": "我要请3天假，需要谁审批？",
+      "expected_tools": [
+        "check_leave_approval"
+      ],
+      "actual_tools": [
+        "check_leave_approval"
+      ],
+      "expected_keywords": [
+        "直属负责人",
+        "部门负责人"
+      ],
+      "answer": "请3天假需要**直属负责人**和**部门负责人**两级审批。",
+      "tool_passed": true,
+      "answer_passed": true,
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "leave-002",
+      "category": "leave",
+      "question": "请假1天需要谁审批？",
+      "expected_tools": [
+        "check_leave_approval"
+      ],
+      "actual_tools": [
+        "check_leave_approval"
+      ],
+      "expected_keywords": [
+        "直属负责人"
+      ],
+      "answer": "请假 **1 天**需要 **直属负责人** 审批。",
+      "tool_passed": true,
+      "answer_passed": true,
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "general-001",
+      "category": "general",
+      "question": "你好，请介绍一下你自己。",
+      "expected_tools": [],
+      "actual_tools": [],
+      "expected_keywords": [],
+      "answer": "你好！我是企业AI助手，可以帮你解答公司内部制度相关的问题，比如：\n\n- **远程办公**：申请条件、审批流程等\n- **考勤制度**：打卡、迟到、加班等规定\n- **请假制度**：请假类型、天数、审批人等\n- **报销制度**：报销标准、流程、所需材料等\n\n另外，我还可以帮你做**数学计算**（比如报销金额汇总），以及查询**请假审批人**（根据请假天数判断需要哪一级负责人审批）。\n\n有什么我可以帮你的吗？😊",
+      "tool_passed": true,
+      "answer_passed": true,
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "refusal-001",
+      "category": "refusal",
+      "question": "公司的年终奖是多少？",
+      "expected_tools": [
+        "search_company_policy"
+      ],
+      "actual_tools": [
+        "search_company_policy"
+      ],
+      "expected_keywords": [
+        "无法确认"
+      ],
+      "answer": "我查了公司制度库，**没有找到关于年终奖的任何规定**。检索到的内容只涉及差旅报销、工作时间/试用期/远程办公、以及年假/病假/请假流程，均与年终奖无关。\n\n因此，关于\"公司的年终奖是多少\"，我**无法确认**，不能给你一个具体数字。\n\n建议你通过以下途径获取准确信息：\n- 查看你的**劳动合同**或**录用通知书（Offer）**中关于奖金的约定；\n- 咨询**人力资源部（HR）**或你的**直属负责人**；\n- 查看公司是否有单独的**薪酬/绩效激励制度**文件（目前不在我可查询的制度库范围内）。\n\n如果你有关于**请假、考勤、远程办公或报销**方面的问题，我可以帮你查询。",
+      "tool_passed": true,
+      "answer_passed": true,
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "refusal-002",
+      "category": "refusal",
+      "question": "公司给每位员工配多少股票？",
+      "expected_tools": [
+        "search_company_policy"
+      ],
+      "actual_tools": [
+        "search_company_policy"
+      ],
+      "expected_keywords": [
+        "无法确认"
+      ],
+      "answer": "抱歉，我查了公司制度库，**没有找到关于员工股票/股权激励配股数量的任何规定**。\n\n检索到的制度内容只涉及年假、病假、请假流程、工作时间、试用期、远程办公和差旅报销等，均与股票无关。\n\n因此，关于\"公司给每位员工配多少股票\"这个问题，我无法根据现有制度资料给出确认答案。建议你：\n\n- 直接咨询 **HR 部门**或查看你的**录用通知书（Offer）/劳动合同**中的股权激励条款；\n- 如果是上市公司，相关激励计划通常会在**股权激励公告**中披露。\n\n如果你需要，我也可以帮你查询其他公司制度（如考勤、请假、报销等）。",
+      "tool_passed": true,
+      "answer_passed": false,
+      "passed": false,
+      "error": null
+    }
+  ]
+}

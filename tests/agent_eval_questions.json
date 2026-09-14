@@ -1,0 +1,72 @@
+[
+  {
+    "id": "policy-001",
+    "category": "policy",
+    "question": "每个月最多可以远程办公多少天？",
+    "expected_tools": ["search_company_policy"],
+    "expected_keywords": ["四天"]
+  },
+  {
+    "id": "policy-002",
+    "category": "policy",
+    "question": "公司的标准工作时间是什么？",
+    "expected_tools": ["search_company_policy"],
+    "expected_keywords": ["上午九点"]
+  },
+  {
+    "id": "policy-003",
+    "category": "policy",
+    "question": "高铁可以按照什么标准报销？",
+    "expected_tools": ["search_company_policy"],
+    "expected_keywords": ["二等座"]
+  },
+  {
+    "id": "calculate-001",
+    "category": "calculate",
+    "question": "请计算128.5加69.9再加42.6",
+    "expected_tools": ["calculate"],
+    "expected_keywords": ["241"]
+  },
+  {
+    "id": "calculate-002",
+    "category": "calculate",
+    "question": "请计算(100+20)*2",
+    "expected_tools": ["calculate"],
+    "expected_keywords": ["240"]
+  },
+  {
+    "id": "leave-001",
+    "category": "leave",
+    "question": "我要请3天假，需要谁审批？",
+    "expected_tools": ["check_leave_approval"],
+    "expected_keywords": ["直属负责人", "部门负责人"]
+  },
+  {
+    "id": "leave-002",
+    "category": "leave",
+    "question": "请假1天需要谁审批？",
+    "expected_tools": ["check_leave_approval"],
+    "expected_keywords": ["直属负责人"]
+  },
+  {
+    "id": "general-001",
+    "category": "general",
+    "question": "你好，请介绍一下你自己。",
+    "expected_tools": [],
+    "expected_keywords": []
+  },
+  {
+    "id": "refusal-001",
+    "category": "refusal",
+    "question": "公司的年终奖是多少？",
+    "expected_tools": ["search_company_policy"],
+    "expected_keywords": ["无法确认"]
+  },
+  {
+    "id": "refusal-002",
+    "category": "refusal",
+    "question": "公司给每位员工配多少股票？",
+    "expected_tools": ["search_company_policy"],
+    "expected_keywords": ["无法确认"]
+  }
+]
