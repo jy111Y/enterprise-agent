@@ -36,7 +36,7 @@ jobs:
         run: python -m pytest -q
 
   docker-build:
-    name: Docker build
+    name: Docker build and smoke test
     runs-on: ubuntu-latest
     needs: test
 
@@ -50,6 +50,31 @@ jobs:
             --pull \
             --tag enterprise-agent:ci \
             .
+
+      - name: Start container
+        run: |
+          docker run -d \
+            --name enterprise-agent-ci \
+            -e LLM_API_KEY=test-api-key \
+            -e LLM_MODEL=test-model \
+            -p 8000:8000 \
+            enterprise-agent:ci
+
+      - name: Check health endpoint
+        run: |
+          for attempt in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:8000/health; then
+              exit 0
+            fi
+            sleep 1
+          done
+
+          docker logs enterprise-agent-ci
+          exit 1
+
+      - name: Stop container
+        if: always()
+        run: docker rm --force enterprise-agent-ci
 
 
 
