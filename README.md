@@ -2,6 +2,23 @@
 
 面向企业知识库问答和业务任务执行的 AI Agent。
 
+[![Enterprise Agent CI](https://github.com/jy111Y/enterprise-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/jy111Y/enterprise-agent/actions/workflows/ci.yml)
+
+## 持续集成
+
+项目使用 GitHub Actions 实现持续集成。每次向 `main`
+分支推送代码或提交 Pull Request 时，流水线会自动：
+
+1. 创建 Python 3.11 环境；
+2. 安装项目依赖；
+3. 执行 pytest 单元测试；
+4. 构建 Docker 镜像；
+5. 启动容器并检查 `/health` 接口。
+
+
+
+
+
 ## day1进度
 
 - [x] 基础模型调用
