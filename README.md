@@ -168,4 +168,45 @@ python scripts/evaluate_agent.py
 平均关键答案命中率为86.7%
 综合通过率为86.7%
 答案命中失败的原因主要是同义词或近义词无法识别，比如9：00和九点，助手判断准确率只能识别九点，
-以及无法找到和无法确认，助手也不能识别，所以对于现在这个程序，我认为还需加入同义词近义词识别，避免过于严苛与死板
+以及无法找到和无法确认，助手也不能识别，所以对于现在这个程序，我认为还需加入同义词近义词识别，避免过于严苛与死板。
+
+## day6进度
+
+- [x] 基础模型调用
+- [x] 流式响应
+- [x] FastAPI 接口
+- [x] RAG 文档检索
+- [x] Tool Calling
+- [x] 状态与记忆
+- [x] Agent 评测
+- [x] Docker 部署
+
+## Docker启动
+
+1. 根据 `.env.example` 创建并配置 `.env`
+2. 构建并启动服务：
+
+```bash
+docker compose up -d --build
+```
+
+3. 打开接口文档：
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+4. 检查服务状态：
+
+```bash
+docker compose ps
+```
+
+5. 停止服务：
+
+```bash
+docker compose down
+```
+
+SQLite 数据通过 `./runtime:/app/runtime` 持久化保存。
+`.env` 不会被复制到 Docker 镜像中。
