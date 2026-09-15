@@ -1,0 +1,13 @@
+services:
+  enterprise-agent:
+    build: 
+      context: .
+    image: enterprise-agent:0.1.0
+    container_name: enterprise-agent
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./runtime:/app/runtime
+    restart: unless-stopped

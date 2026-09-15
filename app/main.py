@@ -153,10 +153,12 @@ def build_context(results) -> str:     #构建上下文
     return "\n\n".join(context_parts)
 
 
-# @app.get("/health")
-# def health() -> dict[str, str]:
-#     return {"status": "ok"}
-
+@app.get("/health")
+def health() -> dict[str, str]:
+    return {
+        "status": "ok",
+        "service": "enterprise-agent",
+    }
 
 # @app.post("/chat")
 # def chat(request: ChatRequest) -> StreamingResponse:
