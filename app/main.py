@@ -25,9 +25,30 @@ from fastapi import (
 project_root = Path(__file__).resolve().parent.parent
 load_dotenv(project_root / ".env")
 
+# memory_database_path = (
+#     project_root
+#     / "runtime"
+#     / "agent_memory.db"
+# )
+
+# conversation_memory = ConversationMemory(
+#     memory_database_path
+# )
+
+runtime_dir = Path(
+    os.getenv(
+        "RUNTIME_DIR",
+        str(project_root / "runtime"),
+    )
+)
+
+runtime_dir.mkdir(
+    parents=True,
+    exist_ok=True,
+)
+
 memory_database_path = (
-    project_root
-    / "runtime"
+    runtime_dir
     / "agent_memory.db"
 )
 
