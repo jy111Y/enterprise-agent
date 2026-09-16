@@ -8,6 +8,7 @@ from app.rag import TfidfRetriever, load_documents
 from app.agent import AgentService
 from app.tools import ToolExecutor
 from app.memory import ConversationMemory
+from app.security import require_api_key
 
 from dotenv import load_dotenv
 from fastapi.responses import StreamingResponse
@@ -18,6 +19,7 @@ from fastapi import (
     FastAPI,
     HTTPException,
     Path as ApiPath,
+    Depends,
 )
 
 project_root = Path(__file__).resolve().parent.parent
@@ -171,7 +173,9 @@ def health() -> dict[str, str]:
 #         raise HTTPException(status_code=502, detail="模型服务调用失败") from exc
 
 
-@app.post("/rag/chat",response_model=RagResponse)
+@app.post("/rag/chat",
+          response_model=RagResponse,
+          dependencies=[Depends(require_api_key)],)
 def rag_chat(request: RagRequest) -> RagResponse:
     results = retriever.search(
         request.question,
@@ -228,7 +232,9 @@ def rag_chat(request: RagRequest) -> RagResponse:
         sources=sources,
     )
 
-@app.post("/agent/chat", response_model=AgentResponse)
+@app.post("/agent/chat", 
+          response_model=AgentResponse, 
+          dependencies=[Depends(require_api_key)])
 def agent_chat(request: AgentRequest) -> AgentResponse:
     result = agent_service.chat(request.message)
 

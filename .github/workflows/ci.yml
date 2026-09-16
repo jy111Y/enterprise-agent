@@ -57,6 +57,7 @@ jobs:
             --name enterprise-agent-ci \
             -e LLM_API_KEY=test-api-key \
             -e LLM_MODEL=test-model \
+            -e APP_API_KEY=test-app-key\
             -p 8000:8000 \
             enterprise-agent:ci
 
