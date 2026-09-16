@@ -228,3 +228,25 @@ docker compose down
 
 SQLite 数据通过 `./runtime:/app/runtime` 持久化保存。
 `.env` 不会被复制到 Docker 镜像中。
+
+## day7
+
+## Online Demo
+
+Health check:
+
+https://enterprise-agent-puce.vercel.app/health
+
+API documentation:
+
+https://enterprise-agent-puce.vercel.app/docs
+
+业务接口需要在请求头中携带 `X-API-Key`。
+
+## 部署说明
+
+在线演示服务使用 Vercel Serverless Function 部署。会话记忆使用临时存储，因此当函数实例重启、重新部署或被回收时，历史会话数据可能会被清除。
+
+
+
+为什么不用render，因为render不知道为什么我需要强制绑定银行卡
